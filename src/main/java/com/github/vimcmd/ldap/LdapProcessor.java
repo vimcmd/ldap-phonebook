@@ -15,23 +15,26 @@ import java.util.ResourceBundle;
 
 public class LdapProcessor {
 
-    private static final ResourceBundle connection = ResourceBundle.getBundle("connection");
-    private static final String PRINCIPAL = connection.getString("ldap.security.principal");
-    private static final String CREDENTIALS = connection.getString("ldap.security.credentials"); // TODO: 04.07.2016 make char array
-    private static final String PROVIDER_URL = connection.getString("ldap.provider.url");
-    private static final String CONTEXT_SEARCH = connection.getString("ldap.context.search");
+    private final ResourceBundle connection = ResourceBundle.getBundle("ldap-connection");
+    private final String PRINCIPAL = connection.getString("ldap.userDn");
+    private final String CREDENTIALS = connection.getString("ldap.password"); // TODO: 04.07.2016 make char array
+    private final String PROVIDER_URL = connection.getString("ldap.url");
+    private final String CONTEXT_SEARCH = connection.getString("ldap.base");
 
     public static void main(String[] args) {
+        LdapProcessor ldapProcessor = new LdapProcessor();
         System.out.println("run: " + new Date());
-        LdapContext ldapContext = getLdapContext();
-        SearchControls searchControls = getSearchControls();
-        getUserInfo("44kvp", ldapContext, searchControls);
-        getUserInfo("44aai", ldapContext, searchControls);
-        getUserInfo("fake_user", ldapContext, searchControls);
+        LdapContext ldapContext = ldapProcessor.getLdapContext();
+        SearchControls searchControls = ldapProcessor.getSearchControls();
+
+        ldapProcessor.getUserInfo("44kvp", ldapContext, searchControls);
+        ldapProcessor.getUserInfo("44aai", ldapContext, searchControls);
+        ldapProcessor.getUserInfo("fake_user", ldapContext, searchControls);
+
         System.out.println("done: " + new Date());
     }
 
-    private static LdapContext getLdapContext() {
+    private LdapContext getLdapContext() {
         LdapContext ctx = null;
         try {
             Hashtable<String, String> env = new Hashtable<String, String>();
@@ -51,7 +54,7 @@ public class LdapProcessor {
         return ctx;
     }
 
-    private static User getUserInfo(String userName, LdapContext ctx, SearchControls searchControls) {
+    private User getUserInfo(String userName, LdapContext ctx, SearchControls searchControls) {
         System.out.println("\n*** " + userName + " ***");
         User user = null;
         try {
@@ -74,7 +77,7 @@ public class LdapProcessor {
         return user;
     }
 
-    private static SearchControls getSearchControls() {
+    private SearchControls getSearchControls() {
         SearchControls cons = new SearchControls();
         cons.setSearchScope(SearchControls.SUBTREE_SCOPE);
         String[] attrIDs = {"distinguishedName", "SamAccountName", "Name", "Department", "title", "telephoneNumber", "otherTelephone"};
