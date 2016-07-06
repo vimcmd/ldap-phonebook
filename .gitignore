@@ -1,5 +1,5 @@
 ## LDAP connection config
-src/main/resources/*connection*.properties
+src/main/resources/application.properties
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template
