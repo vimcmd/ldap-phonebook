@@ -44,7 +44,9 @@ public class Application {
 
     @Bean
     public LdapTemplate ldapTemplate(ContextSource contextSource) {
-        return new LdapTemplate(contextSource);
+        LdapTemplate ldapTemplate = new LdapTemplate(contextSource);
+        ldapTemplate.setIgnorePartialResultException(true);
+        return ldapTemplate;
     }
 
     //@Bean

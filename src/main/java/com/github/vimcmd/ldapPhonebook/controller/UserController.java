@@ -28,7 +28,7 @@ public class UserController {
             model.addAttribute("users", "NOT YET IMPLEMENTED");
         } else {
             final List<User> allUsers = ldapTemplate.findAll(User.class);
-            logger.info(String.valueOf(allUsers));
+            logger.warn(allUsers.toString());
             model.addAttribute("users", allUsers);
         }
         return "listUsers";
