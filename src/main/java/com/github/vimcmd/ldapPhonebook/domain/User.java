@@ -11,21 +11,38 @@ import org.springframework.ldap.odm.annotations.Id;
 
 import javax.naming.Name;
 
-@Entry(objectClasses = { "inetOrgPerson", "organizationalPerson", "person", "top" }, base = "ou=ОТДЕЛЫ")
+@Entry(objectClasses = {"inetOrgPerson", "organizationalPerson", "person", "top"}, base = "ou=ОТДЕЛЫ")
 public final class User {
 
     @Id
     private Name dn;
 
+    @Attribute(name = "samAccountName")
+    private String samAccountName;
+
     @Attribute(name = "cn")
     @DnAttribute(value = "cn", index = 3)
     private String fullName;
 
-    @Attribute(name = "sn")
-    private String lastName;
+    @Attribute(name = "department")
+    private String department;
+
+    @Attribute(name = "title")
+    private String title;
 
     @Attribute(name = "telephoneNumber")
     private String telephoneNumber;
+
+    @Attribute(name = "otherTelephone")
+    private String otherTelephone;
+
+    public String getSamAccountName() {
+        return samAccountName;
+    }
+
+    public void setSamAccountName(String samAccountName) {
+        this.samAccountName = samAccountName;
+    }
 
     public Name getDn() {
         return dn;
@@ -43,20 +60,36 @@ public final class User {
         this.fullName = fullName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
 
     public void setTelephoneNumber(String telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getOtherTelephone() {
+        return otherTelephone;
+    }
+
+    public void setOtherTelephone(String otherTelephone) {
+        this.otherTelephone = otherTelephone;
     }
 
     public boolean equals(Object obj) {

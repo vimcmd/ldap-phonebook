@@ -5,10 +5,28 @@
     <title>Document</title>
 </head>
 <body>
-Hi!
+
+<!--/*@thymesVar id="envValues" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
+<div th:each="value : ${envValues}">
+    <div th:text="${value}"></div>
+</div>
+<br/>
 
 <!--/*@thymesVar id="allUsers" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
-<span th:text="${allUsers}"></span>
+<div th:each="user : ${foundUsers}">
+
+    <div th:text="${user.samAccountName}"></div>
+    <div th:text="${user.fullName}"></div>
+    <div th:text="${user.department}"></div>
+    <div th:text="${user.title}"></div>
+    <div th:text="${user.telephoneNumber}"></div>
+    <div th:text="${user.otherTelephone}"></div>
+    <br/>
+
+</div>
+
+
+
 
 </body>
 </html>
