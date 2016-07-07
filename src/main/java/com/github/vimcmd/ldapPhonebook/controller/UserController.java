@@ -35,12 +35,13 @@ public class UserController {
     public String index(Model model, @RequestParam(required = false) String uid) {
 
         AndFilter andFilter = new AndFilter();
-        andFilter.and(new EqualsFilter("objectclass","person"));
+        andFilter.and(new EqualsFilter("objectClass","user"));
         if (StringUtils.hasText(uid)) {
             andFilter.and(new EqualsFilter("samAccountName", uid));
         }
         SearchControls searchControls = new SearchControls();
         searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+        searchControls.setCountLimit(Long.parseLong(env.getProperty("ldap.searchControls.countLimit")));
 
         final List<User> foundUsers = ldapTemplate.search(
                 "",
@@ -57,7 +58,7 @@ public class UserController {
                     return user;
                 }
         );
-
+        foundUsers.sort((o1, o2) -> o1.getSamAccountName().compareTo(o2.getSamAccountName()));
         model.addAttribute("foundUsers", foundUsers);
         fillEnvironmentAttributes(model);
         //logger.info("USERS: " + foundUsers.toString());
