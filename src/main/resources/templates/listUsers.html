@@ -30,11 +30,11 @@
 </head>
 <body>
 
-<!--/*@thymesVar id="envValues" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
-<div th:each="value : ${envValues}">
-    <div th:text="${value}"></div>
-</div>
-<br/>
+<!--&lt;!&ndash;/*@thymesVar id="envValues" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/&ndash;&gt;-->
+<!--<div th:each="value : ${envValues}">-->
+    <!--<div th:text="${value}"></div>-->
+<!--</div>-->
+<!--<br/>-->
 
 <!--/*@thymesVar id="foundCount" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
 <div th:text="'Results found: ' + ${foundCount}"></div>
@@ -43,9 +43,7 @@
 <table style="word-break:break-all; table-layout:fixed" cellspacing="0" cellpadding="0" width="100%">
     <thead>
     <tr>
-        <th>samAccountName</th>
         <th>Full Name</th>
-        <th>Email</th>
         <th>Department</th>
         <th>Job Title</th>
         <th>Telephone number</th>
@@ -55,9 +53,7 @@
     <tbody>
         <!--/*@thymesVar id="foundUsers" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
         <tr th:each="user : ${foundUsers}">
-            <td th:text="${user.samAccountName}"></td>
-            <td th:text="${user.fullName}"></td>
-            <td th:text="${user.mail}"></td>
+            <td><a th:title="'samAccountName: ' + ${user.samAccountName}" th:text="${user.fullName}" th:href="'mailto:' + ${user.mail}"></a></td>
             <td th:text="${user.department}"></td>
             <td th:text="${user.title}"></td>
             <td th:text="${user.telephoneNumber}"></td>
