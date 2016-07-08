@@ -3,6 +3,30 @@
 <head>
     <meta charset="UTF-8" />
     <title>PhoneBook</title>
+    <style>
+        table {
+            border: solid 1px #f5f5f5;
+        }
+
+        thead {
+            background-color: #d6d6d6;
+            font-weight: bold;
+            /*color: white;*/
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #f4f4f4;
+        }
+
+        th, td {
+            padding: 0.2em;
+            min-width: 5em;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,22 +40,31 @@
 <div th:text="'Results found: ' + ${foundCount}"></div>
 <br/>
 
-<!--/*@thymesVar id="foundUsers" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
-<div th:each="user : ${foundUsers}">
-
-    <div th:text="${user.samAccountName}"></div>
-    <div th:text="${user.fullName}"></div>
-    <div th:text="${user.mail}"></div>
-    <div th:text="${user.department}"></div>
-    <div th:text="${user.title}"></div>
-    <div th:text="${user.telephoneNumber}"></div>
-    <div th:text="${user.otherTelephone}"></div>
-    <br/>
-
-</div>
-
-
-
+<table style="word-break:break-all; table-layout:fixed" cellspacing="0" cellpadding="0" width="100%">
+    <thead>
+    <tr>
+        <th>samAccountName</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Job Title</th>
+        <th>Telephone number</th>
+        <th>Other telephone number</th>
+    </tr>
+    </thead>
+    <tbody>
+        <!--/*@thymesVar id="foundUsers" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
+        <tr th:each="user : ${foundUsers}">
+            <td th:text="${user.samAccountName}"></td>
+            <td th:text="${user.fullName}"></td>
+            <td th:text="${user.mail}"></td>
+            <td th:text="${user.department}"></td>
+            <td th:text="${user.title}"></td>
+            <td th:text="${user.telephoneNumber}"></td>
+            <td th:text="${user.otherTelephone}"></td>
+        </tr>
+    </tbody>
+</table>
 
 </body>
 </html>
