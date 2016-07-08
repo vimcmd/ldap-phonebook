@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.filter.AndFilter;
-import org.springframework.ldap.filter.EqualsFilter;
-import org.springframework.ldap.filter.LikeFilter;
+import org.springframework.ldap.filter.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -48,6 +46,10 @@ public class UserController {
 
         final List<User> foundUsers = ldapTemplate.search("", andFilter.encode(), searchControls, new UserAttributesMapper());
         foundUsers.sort((o1, o2) -> o1.getSamAccountName().compareTo(o2.getSamAccountName()));
+        // TODO: 08.07.2016 split list to sublists grouping by department
+        //Map<String, List<List<String>>> grouped = D.stream()
+        //                                           .collect(Collectors.groupingBy(list -> list.get(1)));
+        //Collection<List<List<String>>> sublists = grouped.values();
 
         model.addAttribute("foundUsers", foundUsers);
         model.addAttribute("foundCount", foundUsers.size());
@@ -61,15 +63,25 @@ public class UserController {
         final String NORMAL_USER_ACCOUNT = "805306368";
         final String MACHINE_ACCOUNT = "805306369";
 
+        // TODO: 08.07.2016 also filter by empty phone numbers
+        final String ACCOUNTDISABLE_PASSWDNOTREQD_NORMALACCOUNT = "514";
+        final String ACCOUNTDISABLE_NORMALACCOUNT = "546";
+        final String PASSWDNOTREQD_NORMALACCOUNT_DONTEXPIREDPASSWD = "66080"; // exchange health mailboxes, etc.
+
         AndFilter andFilter = new AndFilter();
-        andFilter.and(new LikeFilter("objectClass", "person"));
-        andFilter.and(new LikeFilter("samAccountType", NORMAL_USER_ACCOUNT));
+        andFilter.and(new NotFilter(new OrFilter().or(new EqualsFilter("userAccountControl", ACCOUNTDISABLE_PASSWDNOTREQD_NORMALACCOUNT))
+                                                  .or(new EqualsFilter("userAccountControl", ACCOUNTDISABLE_NORMALACCOUNT))
+                                                  .or(new EqualsFilter("userAccountControl", PASSWDNOTREQD_NORMALACCOUNT_DONTEXPIREDPASSWD))));
+        andFilter.and(new EqualsFilter("objectClass", "person"));
+        andFilter.and(new EqualsFilter("samAccountType", NORMAL_USER_ACCOUNT));
+        andFilter.and(new PresentFilter("mail"));
         return andFilter;
     }
 
     private SearchControls getSearchControls() {
         SearchControls searchControls = new SearchControls();
         searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+        // FIXME: 08.07.2016 figure out why max limit is 1000
         searchControls.setCountLimit(Long.parseLong(env.getProperty("ldap.searchControls.countLimit")));
         //String[] attrIDs = {"distinguishedName", "SamAccountName", "Name", "Department", "title", "telephoneNumber", "otherTelephone"};
         //searchControls.setReturningAttributes(attrIDs);
