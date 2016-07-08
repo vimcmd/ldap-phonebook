@@ -24,6 +24,9 @@ public final class User {
     @DnAttribute(value = "cn", index = 3)
     private String fullName;
 
+    @Attribute(name = "mail")
+    private String mail;
+
     @Attribute(name = "department")
     private String department;
 
@@ -58,6 +61,14 @@ public final class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getTelephoneNumber() {

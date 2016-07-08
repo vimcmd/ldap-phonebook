@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Document</title>
+    <title>PhoneBook</title>
 </head>
 <body>
 
@@ -12,11 +12,16 @@
 </div>
 <br/>
 
-<!--/*@thymesVar id="allUsers" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
+<!--/*@thymesVar id="foundCount" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
+<div th:text="'Results found: ' + ${foundCount}"></div>
+<br/>
+
+<!--/*@thymesVar id="foundUsers" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
 <div th:each="user : ${foundUsers}">
 
     <div th:text="${user.samAccountName}"></div>
     <div th:text="${user.fullName}"></div>
+    <div th:text="${user.mail}"></div>
     <div th:text="${user.department}"></div>
     <div th:text="${user.title}"></div>
     <div th:text="${user.telephoneNumber}"></div>
