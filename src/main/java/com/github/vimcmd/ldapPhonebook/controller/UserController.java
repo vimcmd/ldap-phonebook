@@ -20,8 +20,8 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -44,15 +44,20 @@ public class UserController {
 
         SearchControls searchControls = getSearchControls();
 
+        // TODO: 09.07.2016 move search logic to repository
         final List<User> foundUsers = ldapTemplate.search("", andFilter.encode(), searchControls, new UserAttributesMapper());
-        foundUsers.sort((o1, o2) -> o1.getSamAccountName().compareTo(o2.getSamAccountName()));
-        // TODO: 08.07.2016 split list to sublists grouping by department
-        //Map<String, List<List<String>>> grouped = D.stream()
-        //                                           .collect(Collectors.groupingBy(list -> list.get(1)));
-        //Collection<List<List<String>>> sublists = grouped.values();
 
-        model.addAttribute("foundUsers", foundUsers);
+        Map<String, List<User>> grouped = foundUsers.stream().collect(Collectors.groupingBy(User::getDepartment));
+        List<List<User>> usersGroupedByDepartment = new ArrayList<>(grouped.values());
+        Collections.sort(usersGroupedByDepartment, new Comparator<List<User>>() {
+            @Override
+            public int compare(List<User> o1, List<User> o2) {
+                return ( o1.get(0).getDepartment() ).compareTo(o2.get(0).getDepartment());
+            }
+        });
+
         model.addAttribute("foundCount", foundUsers.size());
+        model.addAttribute("usersGroupedByDepartment", usersGroupedByDepartment);
         fillEnvironmentAttributes(model);
 
         //logger.info("USERS: " + foundUsers.toString());

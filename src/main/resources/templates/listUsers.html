@@ -40,27 +40,34 @@
 <div th:text="'Results found: ' + ${foundCount}"></div>
 <br/>
 
-<table style="word-break:break-all; table-layout:fixed" cellspacing="0" cellpadding="0" width="100%">
-    <thead>
-    <tr>
-        <th>Full Name</th>
-        <th>Department</th>
-        <th>Job Title</th>
-        <th>Telephone number</th>
-        <th>Other telephone number</th>
-    </tr>
-    </thead>
-    <tbody>
-        <!--/*@thymesVar id="foundUsers" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
-        <tr th:each="user : ${foundUsers}">
-            <td><a th:title="'samAccountName: ' + ${user.samAccountName}" th:text="${user.fullName}" th:href="'mailto:' + ${user.mail}"></a></td>
-            <td th:text="${user.department}"></td>
-            <td th:text="${user.title}"></td>
-            <td th:text="${user.telephoneNumber}"></td>
-            <td th:text="${user.otherTelephone}"></td>
-        </tr>
-    </tbody>
-</table>
+<!--/*@thymesVar id="usersGroupedByDepartment" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
+<div th:each="group : ${usersGroupedByDepartment}" >
+
+    <h3 th:text="${group[0].department}" ></h3>
+
+    <table style="word-break:break-all; table-layout:fixed" cellspacing="0" cellpadding="0" width="100%">
+        <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>Job Title</th>-->
+                <!--<th>Full Name</th>-->
+                <!--<th>Telephone number</th>-->
+                <!--<th>Other telephone number</th>-->
+            <!--</tr>-->
+        <!--</thead>-->
+        <tbody th:each="user : ${group}">
+            <tr>
+                <td th:text="${user.title}"></td>
+                <td><a th:title="'samAccountName: ' + ${user.samAccountName}" th:text="${user.fullName}" th:href="'mailto:' + ${user.mail}"></a></td>
+                <td th:text="${user.telephoneNumber}"></td>
+                <td th:text="${user.otherTelephone}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br/>
+
+</div>
+
 
 </body>
 </html>
