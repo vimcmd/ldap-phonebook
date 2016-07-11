@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <title>PhoneBook</title>
     <style>
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            margin: 5%;
+        }
+
+        #content h2 {
+            text-align: center;
+        }
+
         table {
             border: solid 1px #f5f5f5;
         }
@@ -30,20 +42,18 @@
 </head>
 <body>
 
-<!--&lt;!&ndash;/*@thymesVar id="envValues" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/&ndash;&gt;-->
-<!--<div th:each="value : ${envValues}">-->
-    <!--<div th:text="${value}"></div>-->
-<!--</div>-->
-<!--<br/>-->
+<div id="content">
+    <h2 style="text-align: center">Content</h2>
+    <div th:each="group : ${usersGroupedByDepartment}">
+        <a th:href="'#' + ${group[0].department}" th:text="${group[0].department}"></a>
+    </div>
+</div>
 
-<!--/*@thymesVar id="foundCount" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
-<div th:text="'Results found: ' + ${foundCountTotal}"></div>
 <br/>
-
 <!--/*@thymesVar id="usersGroupedByDepartment" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
 <div th:each="group : ${usersGroupedByDepartment}" >
 
-    <h3 th:text="${group[0].department}" ></h3>
+    <h3><a th:text="${group[0].department}" th:id="${group[0].department}" th:href="'#content'"></a></h3>
 
     <table style="word-break:break-all; table-layout:fixed" cellspacing="0" cellpadding="0" width="100%">
         <!--<thead>-->
