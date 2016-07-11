@@ -1,48 +1,59 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>PhoneBook</title>
-    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/main.css}" />
+    <!--<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/main.css}" />-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
 </head>
 <body>
 
-<div id="content">
-    <h2>Content</h2>
-    <div th:each="group : ${usersGroupedByDepartment}">
-        <a th:href="'#' + ${group[0].department}" th:text="${group[0].department}"></a>
-    </div>
-</div>
+<div class="container">
+    <div class="row">
 
-<br/>
-<!--/*@thymesVar id="usersGroupedByDepartment" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
-<div th:each="group : ${usersGroupedByDepartment}" >
+        <div id="content">
+            <h1>Содержание</h1>
+            <div th:each="group : ${usersGroupedByDepartment}">
+                <a th:href="'#' + ${group[0].department}" th:text="${group[0].department}"></a>
+            </div>
+        </div>
 
-    <h3><a th:text="${group[0].department}" th:id="${group[0].department}" th:href="'#content'"></a></h3>
+        <br/>
+        <!--/*@thymesVar id="usersGroupedByDepartment" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
+        <div th:each="group : ${usersGroupedByDepartment}">
 
-    <table style="word-break:break-all; table-layout:fixed" cellspacing="0" cellpadding="0" width="100%">
-        <!--<thead>-->
-            <!--<tr>-->
+            <h2><a th:text="${group[0].department}" th:id="${group[0].department}" th:href="'#content'"></a></h2>
+
+            <table class="table table-striped">
+                <!--<thead>-->
+                <!--<tr>-->
                 <!--<th>Job Title</th>-->
                 <!--<th>Full Name</th>-->
                 <!--<th>Telephone number</th>-->
                 <!--<th>Other telephone number</th>-->
-            <!--</tr>-->
-        <!--</thead>-->
-        <tbody th:each="user : ${group}">
-            <tr>
-                <td th:text="${user.title}"></td>
-                <td><a th:title="'samAccountName: ' + ${user.samAccountName}" th:text="${user.fullName}" th:href="'mailto:' + ${user.mail}"></a></td>
-                <td th:text="${user.telephoneNumber}"></td>
-                <td th:text="${user.otherTelephone}"></td>
-            </tr>
-        </tbody>
-    </table>
+                <!--</tr>-->
+                <!--</thead>-->
+                <tbody>
+                <tr th:each="user : ${group}">
+                    <td style="width: 35%;" th:text="${user.title}"></td>
+                    <td style="width: 35%;">
+                        <a class="glyphicon glyphicon-envelope" th:title="${user.mail}"
+                           th:href="'mailto:' + ${user.mail}"></a>
+                        <span th:text="${user.fullName}"></span>
 
-    <br/>
+                    </td>
+                    <td style="width: 10%;" th:text="${user.telephoneNumber}"></td>
+                    <td style="width: 20%;" th:text="${user.otherTelephone}"></td>
+                </tr>
+                </tbody>
+            </table>
 
+            <br/>
+
+        </div>
+    </div>
 </div>
-
 
 </body>
 </html>
