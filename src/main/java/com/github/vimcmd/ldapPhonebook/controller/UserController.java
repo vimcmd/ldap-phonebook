@@ -34,11 +34,10 @@ public class UserController {
         for(List<User> usersGroup : usersGroupedByDepartment) {
             foundCountTotal += usersGroup.size();
         }
+        logger.info("Users found: " + foundCountTotal);
 
-        model.addAttribute("foundCountTotal", foundCountTotal);
         model.addAttribute("usersGroupedByDepartment", usersGroupedByDepartment);
 
-        //logger.info("USERS: " + foundUsers.toString());
         return "listUsers";
     }
 }
