@@ -42,12 +42,13 @@ public class UserRepository {
 
         Map<String, List<User>> grouped = foundUsers.stream().collect(Collectors.groupingBy(User::getDepartment));
         List<List<User>> usersGroupedByDepartment = new ArrayList<>(grouped.values());
-        Collections.sort(usersGroupedByDepartment, new Comparator<List<User>>() {
-            @Override
-            public int compare(List<User> o1, List<User> o2) {
-                return ( o1.get(0).getDepartment() ).compareTo(o2.get(0).getDepartment());
-            }
-        });
+
+        Collections.sort(usersGroupedByDepartment, (o1, o2) -> (o1.get(0).getDepartment()).compareTo(o2.get(0).getDepartment()));
+
+        for(List<User> group : usersGroupedByDepartment) {
+            Collections.sort(group, (o1, o2) -> (o1.getTitle()).compareTo(o2.getTitle()));
+        }
+
         return usersGroupedByDepartment;
     }
 
