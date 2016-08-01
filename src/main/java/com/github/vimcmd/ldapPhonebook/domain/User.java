@@ -1,7 +1,5 @@
 package com.github.vimcmd.ldapPhonebook.domain;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.ldap.odm.annotations.Attribute;
@@ -101,14 +99,6 @@ public final class User {
 
     public void setOtherTelephone(String otherTelephone) {
         this.otherTelephone = otherTelephone;
-    }
-
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
-
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     public String toString() {
