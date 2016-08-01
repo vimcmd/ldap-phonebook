@@ -25,8 +25,13 @@ public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public final String index() {
+        return "redirect:/users";
+    }
+
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public final String index(Model model, @RequestParam(required = false) String id) {
+    public final String users(Model model, @RequestParam(required = false) String id) {
 
         List<List<User>> usersGroupedByDepartment = userRepository.findAllGroupByDepartment(id);
 
@@ -38,6 +43,6 @@ public class UserController {
 
         model.addAttribute("usersGroupedByDepartment", usersGroupedByDepartment);
 
-        return "listUsers";
+        return "users";
     }
 }

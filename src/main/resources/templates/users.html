@@ -8,7 +8,7 @@
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
 </head>
 <body>
-
+<!--/*@thymesVar id="usersGroupedByDepartment" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
 <div class="container">
     <div class="row">
 
@@ -20,20 +20,11 @@
         </div>
 
         <br/>
-        <!--/*@thymesVar id="usersGroupedByDepartment" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
         <div th:each="group : ${usersGroupedByDepartment}">
 
             <h2><a th:text="${group[0].department}" th:id="${group[0].department}" th:href="'#content'"></a></h2>
 
             <table class="table table-striped">
-                <!--<thead>-->
-                <!--<tr>-->
-                <!--<th>Job Title</th>-->
-                <!--<th>Full Name</th>-->
-                <!--<th>Telephone number</th>-->
-                <!--<th>Other telephone number</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
                 <tbody>
                 <tr th:each="user : ${group}">
                     <td style="width: 35%;" th:text="${user.title}"></td>
