@@ -26,9 +26,9 @@ public class UserController {
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public final String index(Model model, @RequestParam(required = false) String uid) {
+    public final String index(Model model, @RequestParam(required = false) String id) {
 
-        List<List<User>> usersGroupedByDepartment = userRepository.findAllGroupByDepartment(uid);
+        List<List<User>> usersGroupedByDepartment = userRepository.findAllGroupByDepartment(id);
 
         int foundCountTotal = 0;
         for(List<User> usersGroup : usersGroupedByDepartment) {

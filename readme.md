@@ -18,10 +18,21 @@ ldap.searchControls.countLimit = {search count limit}
 
 #### GET phone book
 
-This endpoint returns HTML table containing departments, users and their job titles, mailboxes and phones.
+This endpoint returns whole phonebook containing departments, users and their job titles, mailboxes and phones.
+Search starts from `ldap.contextSource.base`
 
 **HTTP REQUEST**
 
 ```
  http://localhost:8080/users
+```
+
+#### GET concrete user
+This endpoint returns phonebook for concrete user. Here, `{samAccountName}` is user principal name
+(UPN or samAccountName) in LDAP. Use without curly braces.
+
+**HTTP REQUEST**
+
+```
+ http://localhost:8080/users?id={samAccountName}
 ```
