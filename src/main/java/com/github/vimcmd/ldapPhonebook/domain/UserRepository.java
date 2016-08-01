@@ -26,6 +26,11 @@ public class UserRepository {
     @Autowired
     Environment env;
 
+    private static final String NORMAL_USER_ACCOUNT = "805306368";
+    private static final String MACHINE_ACCOUNT = "805306369";
+    private static final String ACCOUNTDISABLE_PASSWDNOTREQD_NORMALACCOUNT = "514";
+    private static final String ACCOUNTDISABLE_NORMALACCOUNT = "546";
+    private static final String PASSWDNOTREQD_NORMALACCOUNT_DONTEXPIREDPASSWD = "66080"; // exchange health mailboxes, etc.
 
     public List<List<User>> findAllGroupByDepartment() {
         return findAllGroupByDepartment("");
@@ -53,13 +58,8 @@ public class UserRepository {
     }
 
     private AndFilter getAndFilter() {
-        final String NORMAL_USER_ACCOUNT = "805306368";
-        final String MACHINE_ACCOUNT = "805306369";
 
         // TODO: 08.07.2016 also filter by empty phone numbers
-        final String ACCOUNTDISABLE_PASSWDNOTREQD_NORMALACCOUNT = "514";
-        final String ACCOUNTDISABLE_NORMALACCOUNT = "546";
-        final String PASSWDNOTREQD_NORMALACCOUNT_DONTEXPIREDPASSWD = "66080"; // exchange health mailboxes, etc.
 
         AndFilter andFilter = new AndFilter();
         andFilter.and(new NotFilter(new OrFilter().or(new EqualsFilter("userAccountControl", ACCOUNTDISABLE_PASSWDNOTREQD_NORMALACCOUNT))
@@ -84,6 +84,7 @@ public class UserRepository {
     private static final class UserAttributesMapper implements AttributesMapper<User> {
 
         private static String getAttributeValue(@NotNull Attributes attributes, @NotNull String attrID) {
+            // FIXME: 01.08.2016 optimize this
             final Attribute attribute = attributes.get(attrID);
             if (attribute != null) {
                 return String.valueOf(attribute).split(": ", 2)[1];
