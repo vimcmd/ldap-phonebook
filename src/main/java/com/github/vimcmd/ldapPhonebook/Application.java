@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.LdapTemplate;
@@ -17,6 +18,7 @@ import org.springframework.ldap.core.support.LdapContextSource;
 @EnableAutoConfiguration
 @EnableConfigurationProperties
 @SpringBootApplication
+@EnableCaching
 public class Application {
 
     @Autowired

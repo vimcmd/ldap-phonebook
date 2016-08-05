@@ -1,6 +1,7 @@
 package com.github.vimcmd.ldapPhonebook.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
@@ -36,6 +37,7 @@ public class UserRepository {
         return findAllGroupByDepartment("");
     }
 
+    @Cacheable("users")
     public List<List<User>> findAllGroupByDepartment(String samAccountName) {
         AndFilter andFilter = getAndFilter();
         if (StringUtils.hasText(samAccountName)) {
