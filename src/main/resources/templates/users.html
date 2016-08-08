@@ -6,16 +6,42 @@
     <!--<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/main.css}" />-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+    <style>
+        /*CSS3 multiple columns.*/
+        .departments-content
+        {
+            -moz-column-width: 25em; /* Firefox */
+            -webkit-column-width: 25em; /* webkit, Safari, Chrome */
+            column-width: 25em;
+        }
+        /*remove standard list and bullet formatting from ul*/
+        .departments-content ul
+        {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        /* correct webkit/chrome uneven margin on the first column*/
+        .departments-content ul li:first-child
+        {
+            margin-top:0;
+        }
+    </style>
 </head>
 <body>
 <!--/*@thymesVar id="usersGroupedByDepartment" type="com.github.vimcmd.ldapPhonebook.controller.UserController"*/-->
 <div class="container">
     <div class="row">
 
-        <div id="content">
+        <div id="content" class="row">
             <h1>Содержание</h1>
-            <div th:each="group : ${usersGroupedByDepartment}">
-                <a th:href="'#' + ${group[0].department}" th:text="${group[0].department}"></a>
+
+            <div class="departments-content">
+                <ul>
+                    <li th:each="group : ${usersGroupedByDepartment}">
+                        <a th:href="'#' + ${group[0].department}" th:text="${group[0].department}"></a>
+                    </li>
+                </ul>
             </div>
         </div>
 
