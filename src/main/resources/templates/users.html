@@ -27,7 +27,7 @@
         }
 
         .content section {
-            max-width: 960px;
+            /*max-width: 960px;*/
             margin: 40px;
             text-align: left;
             color: #757575 !important;
@@ -48,6 +48,30 @@
         .section-content {
             display: table-cell;
             width: 100%;
+        }
+
+        .table-full-width {
+            width: 100%;
+        }
+
+        .td-10-percent {
+            width: 10%;
+        }
+
+        .td-25-percent {
+            width: 25%;
+        }
+
+        .td-30-percent {
+            width: 30%;
+        }
+
+        .td-50-percent {
+            width: 50%;
+        }
+
+        .td-60-percent {
+            width: 60%;
         }
 
         .mdl-data-table td {
@@ -96,21 +120,21 @@
             <section th:each="group : ${usersGroupedByDepartment}" th:id="${group[0].department}">
                 <h3 th:text="${group[0].department}"></h3>
                 <div class="section-content">
-                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp table-full-width">
                         <tbody>
                         <tr th:each="user : ${group}">
-                            <td th:text="${user.title}" style="min-width: 250px; max-width: 250px;">Job Title</td>
-                            <td style="min-width: 50px; max-width: 50px;">
+                            <td class="td-30-percent" th:text="${user.title}">Job Title</td>
+                            <td class="td-25-percent">
+                                <p th:text="${user.fullName}" th:remove="tag">UserName</p>
+                            </td>
+                            <td class="td-10-percent">
                                 <a th:href="'mailto:' + ${user.mail}" th:title="${user.mail}"><i
                                         class="material-icons mdl-list__item-icon">mail</i></a>
                             </td>
-                            <td style="min-width: 250px; max-width: 250px;">
-                                <p th:text="${user.fullName}" th:remove="tag">UserName</p>
-                            </td>
-                            <td th:text="${user.telephoneNumber}" style="min-width: 100px; max-width: 100px;">Internal
+                            <td class="td-10-percent" th:text="${user.telephoneNumber}">Internal
                                 Phone
                             </td>
-                            <td th:text="${user.otherTelephone}" style="min-width: 200px; max-width: 200px;">External
+                            <td class="td-25-percent" th:text="${user.otherTelephone}">External
                                 Phone
                             </td>
                         </tr>
